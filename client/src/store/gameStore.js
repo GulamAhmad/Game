@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { io } from 'socket.io-client';
 
-const socket = io(`http://${window.location.hostname}:3001`);
+const socket = io(process.env.REACT_APP_SOCKET_URL || 'https://game-3ot9.onrender.com');
 
 const useGameStore = create((set, get) => ({
   socket,
