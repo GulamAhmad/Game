@@ -7,6 +7,10 @@ const { generateQuestions } = require("./gemini");
 const app = express();
 app.use(cors());
 
+app.get('/', (req, res) => {
+  res.send('Server is awake');
+});
+
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {

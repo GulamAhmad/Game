@@ -9,7 +9,7 @@ const Home = () => {
   const [name, setName] = useState('');
   const [roomIdInput, setRoomIdInput] = useState('');
   const navigate = useNavigate();
-  const { createRoom, joinRoom, error, roomId } = useGameStore();
+  const { createRoom, joinRoom, error, roomId, connected, connecting } = useGameStore();
 
   // 3D Tilt Effect
   const x = useMotionValue(0);
@@ -147,7 +147,8 @@ const Home = () => {
               <div className="space-y-4">
                 <button
                   onClick={handleCreateRoom}
-                  className="btn-premium group w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold py-5 rounded-2xl shadow-[0_10px_40px_-10px_rgba(139,92,246,0.5)] flex items-center justify-center gap-3 transition-all active:scale-[0.98]"
+                  disabled={connecting}
+                  className="btn-premium group w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold py-5 rounded-2xl shadow-[0_10px_40px_-10px_rgba(139,92,246,0.5)] flex items-center justify-center gap-3 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <PlusCircle className="w-6 h-6 group-hover:rotate-90 transition-transform duration-300" />
                   Create New Room
@@ -171,7 +172,8 @@ const Home = () => {
                   </div>
                   <button
                     onClick={handleJoinRoom}
-                    className="group w-full bg-slate-900 hover:bg-slate-800 text-slate-200 font-bold py-5 rounded-2xl border border-slate-800 flex items-center justify-center gap-3 transition-all active:scale-[0.98]"
+                    disabled={connecting}
+                    className="group w-full bg-slate-900 hover:bg-slate-800 text-slate-200 font-bold py-5 rounded-2xl border border-slate-800 flex items-center justify-center gap-3 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Join Existing Room
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -192,6 +194,17 @@ const Home = () => {
         <ShieldAlert className="w-5 h-5 text-rose-500" />
         <span className="font-bold tracking-tighter text-lg uppercase italic">NoMercy Games</span>
       </div>
+
+      {/* Connecting Overlay */}
+      {connecting && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="glass-card p-8 rounded-3xl text-center space-y-4">
+            <div className="w-12 h-12 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mx-auto"></div>
+            <h3 className="text-xl font-bold">Connecting to Server</h3>
+            <p className="text-slate-400">Waking up the game server...</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
